@@ -5,7 +5,7 @@ import jakarta.validation.constraints.Min;
 
 public record FurnitureDetailDto (
         @Min(4)
-        @Max(5)
+        @Max(55)
         Double height
 ){}
 
