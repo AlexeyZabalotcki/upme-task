@@ -1,0 +1,28 @@
+version: '3.5'
+
+services:
+
+  upme-service:
+    image: upme-service:latest
+    container_name: upme-service
+    depends_on:
+      upme-database:
+        condition: service_started
+    build: .
+    ports:
+      - "8080:8080"
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://upme-database:5432/upme_db
+      SPRING_DATASOURCE_USERNAME: upme
+      SPRING_DATASOURCE_PASSWORD: password
+
+  upme-database:
+    container_name: upme-database
+    image: postgres
+    environment:
+      POSTGRES_USER: upme
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: upme_db
+    ports:
+      - "5432:5432"
+    restart: unless-stopped

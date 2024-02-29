@@ -1,0 +1,19 @@
+spring:
+  application:
+    name: upme-task
+  datasource:
+    driver-class-name: org.postgresql.Driver
+    username: upme
+    password: password
+    url: jdbc:postgresql://upme-database:5432/upme_db
+  jpa:
+    hibernate:
+      ddl-auto: none
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+        show_sql: true
+        format_sql: true
+  liquibase:
+    change-log: db/changelog/db.changelog-master.yaml
+    enabled: true
