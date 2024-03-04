@@ -8,6 +8,7 @@ import by.upmebel.upmecutfile.upmetask.dto.HoleDto;
 import by.upmebel.upmecutfile.upmetask.mapper.FurnitureDetailMapper;
 import by.upmebel.upmecutfile.upmetask.mapper.HoleMapper;
 import by.upmebel.upmecutfile.upmetask.mapper.HoleMapper;
+import by.upmebel.upmecutfile.upmetask.model.CoordinatePattern;
 import by.upmebel.upmecutfile.upmetask.model.FurnitureDetail;
 import by.upmebel.upmecutfile.upmetask.model.Hole;
 import by.upmebel.upmecutfile.upmetask.service.FurnitureDetailService;
@@ -29,6 +30,24 @@ public class HoleServiceImpl implements HoleService {
 
     private final HoleRepository repository;
     private final HoleMapper mapper;
+
+    @Override
+    public Double calculateCoordinates(HoleDto dto) {
+        CoordinatePattern pattern = new CoordinatePattern(dto.pattern());
+        dto.variables().forEach(pattern::setVariables);
+
+        Hole hole = Hole.builder()
+                .diameter(dto.diameter())
+                .depth(dto.depth())
+                .entrySpeed(dto.entrySpeed())
+                .exitSpeed(dto.exitSpeed())
+                .coordinates(pattern)
+                .build();
+
+        log.info("Hole with coordinates {}, {}", hole.toString(), hole.getCoordinates().toString());
+
+        return pattern.evaluate();
+    }
 
     @Override
     @Transactional
@@ -68,4 +87,6 @@ public class HoleServiceImpl implements HoleService {
     public void delete(Long id) {
         repository.deleteById(id);
     }
+
+
 }

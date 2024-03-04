@@ -37,7 +37,7 @@ Request body:
 
 # Endpoints for Holes:
 
-* #### Create Hole
+* #### Create Hole `POST http://localhost:8080/api/v1/hole`
 
 Request body:
   ```
@@ -46,8 +46,31 @@ Request body:
   "depth": 1,
   "entrySpeed": 2,
   "exitSpeed": 3,
-  "coordinates": "1/2/3/4",
-  "furnitureDetailId": 1
+  "pattern": "L/2 + B*0.5 + H/3",
+  "variables": {
+    "L": 100.0,
+    "B": 50.0,
+    "H": 30.0
+  },
+  "furnitureDetailId": 2
+}
+```
+* #### Calculate coordinates `POST http://localhost:8080/api/v1/hole/coordinates`
+
+Request body:
+  ```
+{
+  "diameter": 1,
+  "depth": 1,
+  "entrySpeed": 2,
+  "exitSpeed": 3,
+  "pattern": "L/2 + B*0.5 + H/3",
+  "variables": {
+    "L": 100.0,
+    "B": 50.0,
+    "H": 30.0
+  },
+  "furnitureDetailId": 2
 }
 ```
 * #### Get all holes `http://localhost:8080/api/v1/hole`
@@ -65,3 +88,8 @@ Request body:
 }
 ```
 * #### Delete hole by id `DELETE http://localhost:8080/api/v1/hole/<id>`
+
+
+## License
+
+This project is licensed under the Apache License Version 2.0 - see the [LICENSE](LICENSE) file for details.

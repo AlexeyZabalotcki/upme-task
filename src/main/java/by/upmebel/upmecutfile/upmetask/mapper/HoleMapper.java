@@ -2,6 +2,7 @@ package by.upmebel.upmecutfile.upmetask.mapper;
 
 import by.upmebel.upmecutfile.upmetask.dao.FurnitureDetailRepository;
 import by.upmebel.upmecutfile.upmetask.dto.HoleDto;
+import by.upmebel.upmecutfile.upmetask.model.CoordinatePattern;
 import by.upmebel.upmecutfile.upmetask.model.FurnitureDetail;
 import by.upmebel.upmecutfile.upmetask.model.Hole;
 import jakarta.persistence.EntityNotFoundException;
@@ -21,19 +22,32 @@ public class HoleMapper {
 
 
     public HoleDto toDto(Hole hole) {
-        return new HoleDto(hole.getDiameter(), hole.getDepth(),
-                hole.getEntrySpeed(), hole.getExitSpeed(), hole.getCoordinates(), hole.getFurnitureDetail().getId());
+        CoordinatePattern coordinates = hole.getCoordinates();
+        return new HoleDto(
+                hole.getDiameter(),
+                hole.getDepth(),
+                hole.getEntrySpeed(),
+                hole.getExitSpeed(),
+                coordinates.getPattern(),
+                coordinates.getVariables(),
+                hole.getFurnitureDetail().getId())
+                ;
     }
 
     public Hole toEntity(HoleDto dto) {
         FurnitureDetail furnitureDetail = furnitureDetailRepository.findById(dto.furnitureDetailId())
                 .orElseThrow(() -> new EntityNotFoundException("Check detail's id " + dto.furnitureDetailId()));
+
+        CoordinatePattern coordinatePattern = new CoordinatePattern(dto.pattern());
+        coordinatePattern.setPattern(dto.pattern());
+        dto.variables().forEach(coordinatePattern::setVariables);
+
         return Hole.builder()
                 .diameter(dto.diameter())
                 .depth(dto.depth())
                 .entrySpeed(dto.entrySpeed())
                 .exitSpeed(dto.exitSpeed())
-                .coordinates(dto.coordinates())
+                .coordinates(coordinatePattern)
                 .furnitureDetail(furnitureDetail)
                 .build();
     }

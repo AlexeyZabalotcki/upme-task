@@ -36,7 +36,7 @@ public class Hole {
     private Double depth;
     private Double entrySpeed;
     private Double exitSpeed;
-    private String coordinates;
+    private CoordinatePattern coordinates;
 
     @ManyToOne(cascade = CascadeType.PERSIST)
     @JoinColumn(nullable = false, name = "furniture_detail_id")

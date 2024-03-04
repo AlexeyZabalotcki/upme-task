@@ -12,4 +12,6 @@ public interface HoleService {
     Optional<HoleDto> getById(Long id);
     List<HoleDto> getAll();
     void delete (Long id);
+
+    Double calculateCoordinates(HoleDto hole);
 }

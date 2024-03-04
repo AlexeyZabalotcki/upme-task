@@ -23,6 +23,11 @@ public class HoleController {
 
     private final HoleService service;
 
+    @PostMapping("/coordinates")
+    public ResponseEntity<Double> calculateCoordinates(@RequestBody HoleDto hole) {
+        return new ResponseEntity<>(service.calculateCoordinates(hole), HttpStatus.OK);
+    }
+
     @PostMapping
     public ResponseEntity<HoleDto> create(@RequestBody HoleDto hole) {
         return new ResponseEntity<>(service.create(hole), HttpStatus.CREATED);
